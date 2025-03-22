@@ -1,0 +1,25 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+    <h1 class="text-3xl mb-4">Оформление заказа</h1>
+    <form action="" method="post" class="max-w-md">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="customer_name" class="block mb-1">Имя</label>
+            <input type="text" name="customer_name" id="customer_name" class="w-full p-2 border rounded" required>
+        </div>
+        <div class="mb-4">
+            <label for="customer_phone" class="block mb-1">Телефон</label>
+            <input type="text" name="customer_phone" id="customer_phone" class="w-full p-2 border rounded" required>
+        </div>
+        <div class="mb-4">
+            <label for="delivery_method" class="block mb-1">Способ доставки</label>
+            <select name="delivery_method" id="delivery_method" class="w-full p-2 border rounded">
+                <option value="post">Почта</option>
+                <option value="courier">Курьер</option>
+                <option value="pickup">Самовывоз</option>
+            </select>
+        </div>
+        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Оформить заказ</button>
+    </form>
+{% endblock %}

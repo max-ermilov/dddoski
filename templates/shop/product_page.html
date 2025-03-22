@@ -1,0 +1,41 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+    <div class="container mx-auto my-8">
+        <h1 class="text-3xl font-bold mb-4">{{ page.title }}</h1>
+        <div class="mb-4">
+            <p class="text-xl">Цена: {{ page.price }} руб.</p>
+        </div>
+        <div class="mb-4">
+            {{ page.description|safe }}
+        </div>
+        {% if page.image %}
+            <div class="mb-4">
+                <img src="{{ page.image.url }}" alt="{{ page.title }}" class="w-full">
+            </div>
+        {% endif %}
+        <div class="mt-4">
+            <button
+                    data-url="{% url 'add_to_basket' page.id %}"
+                    @click="
+    let url = $el.dataset.url;
+    fetch(url, {
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(response => response.json())
+    .then(data => {
+      $store.basket.count = data.basket_count;
+      console.log('Товар добавлен, корзина: ' + data.basket_count);
+    })
+    .catch(error => {
+      alert('Ошибка при добавлении товара в корзину');
+      console.error(error);
+    })
+  "
+                    class="px-4 py-2 bg-blue-600 text-white rounded"
+            >
+                Добавить
+            </button>
+        </div>
+    </div>
+{% endblock %}

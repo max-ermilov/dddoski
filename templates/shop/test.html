@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru" x-data>
+<head>
+    <meta charset="UTF-8">
+    <title>Test Alpine</title>
+    <!-- Подключаем Alpine 3 через CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.3/dist/cdn.min.js" defer></script>
+
+    <!-- Инициализируем глобальное хранилище -->
+    <script>
+      document.addEventListener('alpine:init', () => {
+        // Задаём явно какое-то число
+        Alpine.store('basket', { count: 6 });
+      });
+    </script>
+</head>
+<body>
+<!-- Печатаем значение basket.count -->
+<header>
+    <a>Корзина (<span x-text="$store.basket.count"></span>)</a>
+</header>
+</body>
+</html>
