@@ -1,41 +1,84 @@
 {% extends "shop/base.html" %}
+{% load wagtailimages_tags %}
 
 {% block content %}
     <div class="container mx-auto my-8">
         <h1 class="text-3xl font-bold mb-4">{{ page.title }}</h1>
-        <div class="mb-4">
-            <p class="text-xl">Цена: {{ page.price }} руб.</p>
-        </div>
-        <div class="mb-4">
-            {{ page.description|safe }}
-        </div>
-        {% if page.image %}
-            <div class="mb-4">
-                <img src="{{ page.image.url }}" alt="{{ page.title }}" class="w-full">
+        <div class="mb-4 text-xl">Цена: {{ page.price }} руб.</div>
+        <div class="mb-4">{{ page.description|linebreaks }}</div>
+
+        {% if page.gallery_images.all %}
+            <!-- Wrapper -->
+            <div class="relative mb-6">
+                <!-- Main Swiper -->
+                <div class="swiper slider-main mb-4">
+                    <div class="swiper-wrapper">
+                        {% for item in page.gallery_images.all %}
+                            <div class="swiper-slide">
+                                <div class="image-container">
+                                    {% image item.image fill-800x600 class="object-contain w-full h-full" %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Thumbnails Swiper -->
+                <div class="swiper slider-thumbs">
+                    <div class="swiper-wrapper">
+                        {% for item in page.gallery_images.all %}
+                            <div class="swiper-slide opacity-70 hover:opacity-100 transition-all duration-200 cursor-pointer">
+                                {% image item.image fill-100x75 class="rounded" %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
+
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const thumbsSwiper = new Swiper('.slider-thumbs', {
+                  spaceBetween: 10,
+                  slidesPerView: 4,
+                  freeMode: true,
+                  watchSlidesProgress: true,
+                  breakpoints: {
+                    640: { slidesPerView: 5 },
+                    1024: { slidesPerView: 6 }
+                  }
+                });
+
+                const mainSwiper = new Swiper('.slider-main', {
+                  spaceBetween: 10,
+                  loop: true,
+                  navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                  },
+                  thumbs: {
+                    swiper: thumbsSwiper,
+                  },
+                });
+              });
+            </script>
         {% endif %}
+
+        <!-- Кнопка -->
         <div class="mt-4">
             <button
                     data-url="{% url 'add_to_basket' page.id %}"
                     @click="
-    let url = $el.dataset.url;
-    fetch(url, {
-      headers: { 'X-Requested-With': 'XMLHttpRequest' }
-    })
-    .then(response => response.json())
-    .then(data => {
-      $store.basket.count = data.basket_count;
-      console.log('Товар добавлен, корзина: ' + data.basket_count);
-    })
-    .catch(error => {
-      alert('Ошибка при добавлении товара в корзину');
-      console.error(error);
-    })
-  "
+                let url = $el.dataset.url;
+                fetch(url, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(data => { $store.basket.count = data.basket_count })
+                .catch(error => alert('Ошибка при добавлении'))"
                     class="px-4 py-2 bg-blue-600 text-white rounded"
             >
                 Добавить
             </button>
         </div>
     </div>
-{% endblock %}
+{% endblock content%}

@@ -1,3 +1,42 @@
 body {
     background-color: #f5f5f5;
 }
+
+.swiper.slider-thumbs {
+    padding-left: 2px;
+}
+
+.swiper.slider-thumbs .swiper-slide {
+    width: auto !important;
+    margin-right: 10px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    opacity: 0.6;
+    transition: all 0.2s ease-in-out;
+}
+
+.swiper.slider-thumbs .swiper-slide-thumb-active {
+    border-color: #2563eb; /* Tailwind blue-600 */
+    opacity: 1;
+}
+
+/* Ограничиваем высоту 66vh */
+.image-container {
+    max-height: 66vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Изображение вписывается */
+.image-container img {
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.cursor-zoom-in {
+    cursor: zoom-in;
+}

@@ -1,0 +1,14 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+    <h1 class="text-2xl font-bold mb-4">Спасибо за заказ!</h1>
+    <p>Ваш заказ <strong>#{{ order.id }}</strong> от <strong>{{ order_date }}</strong> успешно оформлен.</p>
+    <h2 class="text-xl mt-4 mb-2">Состав заказа:</h2>
+    <ul class="list-disc list-inside">
+        {% for item in order.items.all %}
+            <li>{{ item.product.title }} — {{ item.quantity }} шт. × {{ item.price }} руб.</li>
+        {% endfor %}
+    </ul>
+    <p class="mt-4">Итого: <strong>{{ order.total_amount }} руб.</strong></p>
+    <a href="/" class="mt-6 inline-block bg-blue-600 text-white px-4 py-2 rounded">Вернуться на главную</a>
+{% endblock %}

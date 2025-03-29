@@ -1,17 +1,48 @@
 from django.db import models
-from wagtail.models import Page
+from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
+from wagtail.models import Orderable, Page
 from wagtail.admin.panels import FieldPanel
+from wagtail.fields import StreamField
+from wagtail.images import get_image_model_string
+from wagtail.admin.panels import InlinePanel, MultiFieldPanel
 
+
+class ProductImage(Orderable):
+    page = ParentalKey('shop.ProductPage', on_delete=models.CASCADE, related_name='gallery_images')
+    image = models.ForeignKey(
+        get_image_model_string(),
+        on_delete=models.CASCADE,
+        related_name='+',
+        verbose_name="Изображение"
+    )
+    caption = models.CharField(blank=True, max_length=250, verbose_name="Подпись")
+
+    panels = [
+        FieldPanel('image'),
+        FieldPanel('caption'),
+    ]
+
+
+# class ProductPage(Page):
+#     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
+#     description = models.TextField(verbose_name="Описание")
+#     image = models.ImageField(upload_to='products/', null=True, blank=True, verbose_name="Изображение")
+#
+#     content_panels = Page.content_panels + [
+#         FieldPanel('price'),
+#         FieldPanel('description'),
+#         FieldPanel('image'),
+#     ]
 
 class ProductPage(Page):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
     description = models.TextField(verbose_name="Описание")
-    image = models.ImageField(upload_to='products/', null=True, blank=True, verbose_name="Изображение")
 
     content_panels = Page.content_panels + [
         FieldPanel('price'),
         FieldPanel('description'),
-        FieldPanel('image'),
+        InlinePanel('gallery_images', label="Галерея изображений"),
     ]
 
 

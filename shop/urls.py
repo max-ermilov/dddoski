@@ -8,5 +8,5 @@ urlpatterns = [
     path('basket/update/', views.update_basket, name='update_basket'),
     path('order/create/', views.order_create, name='order_create'),
     # Путь для страницы успешного оформления заказа (её нужно создать)
-    path('order/success/', views.order_create, name='order_success'),
+    path('order/success/', views.order_success, name='order_success'),
 ]

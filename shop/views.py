@@ -88,5 +88,16 @@ def order_create(request):
             )
         # Очистка корзины после оформления заказа
         request.session['basket'] = {}
-        return redirect('order_success')  # Создайте страницу подтверждения заказа
+        return redirect(f"/shop/order/success/?order_id={order.id}")
+
     return render(request, 'shop/order_form.html')
+
+
+def order_success(request):
+    order_id = request.GET.get('order_id')
+    order = get_object_or_404(Order, pk=order_id)
+    from django.utils.timezone import localtime
+    return render(request, 'shop/order_success.html', {
+        'order': order,
+        'order_date': localtime(order.created_at).strftime('%d.%m.%Y %H:%M'),
+    })

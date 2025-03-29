@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-xn+n@q)&zhf)ysm!+4l_=5)8r5-ge+cmx%^%fb2c0=q^m$ql(*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -137,4 +137,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-WAGTAIL_SITE_NAME = 'DDDOSKI'
+WAGTAIL_SITE_NAME = 'DDOSKI'
