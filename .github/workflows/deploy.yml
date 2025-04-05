@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: 'Prod 5.35.47.99'
 
     steps:
       - name: 📥 Checkout repository
